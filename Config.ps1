@@ -1,40 +1,51 @@
+$config = Join-Path $PWD.Path "config.properties"
+
 function Read-Properties-Value
 {
     param (
-        [string]$FilePath,
-        [string]$TargetKey
+        [string]$filePath,
+        [string]$targetKey
     )
 
-    # Read the YAML file content
-    $YamlContent = Get-Content -Path $FilePath
+    # Read the properties file content
+    $content = Get-Content -Path $filePath
 
     # Initialize variables
-    $FoundKey = $false
-    $Value = $null
+    $foundKey = $false
+    $value = $null
 
-    foreach ($Line in $YamlContent)
+    foreach ($line in $content)
     {
         # Skip comments and empty lines
-        if ($Line -match '^\s*#|^$')
+        if ($line -match '^\s*#|^$')
         {
             continue
         }
         # Check if the line contains the target key
-        if ($Line -match "^(\s*)$TargetKey\s*=\s*(.*)")
+        if ($line -match "^(\s*)$targetKey\s*=\s*(.*)")
         {
-            $FoundKey = $true
-            $Value = $matches[2].Trim()
+            $foundKey = $true
+            $value = $matches[2].Trim()
             break
         }
     }
 
-    if ($FoundKey)
+    if ($foundKey)
     {
-        return $Value
+        return $value
     }
     else
     {
-        Write-Warning "Key '$TargetKey' not found in the YAML file."
+        Log-Error "Key '$targetKey' not found in the configuration file ($config)."
         return $null
     }
+}
+
+function Get-Config
+{
+    param (
+        [string]$targetKey
+    )
+
+    return Read-Properties-Value -filePath $config -targetKey $targetKey
 }
