@@ -1,31 +1,39 @@
+$config = Join-Path $PWD.Path "config.properties"
+
+. ".\Log.ps1"
+. ".\Config.ps1"
+
 # Define the port number to listen on
-$port = 8080
+$port = Read-Properties-Value -filePath $config -targetKey "server.port"
 
-function Log {
-    param (
-        [string]$message
-    )
+# Define the root containing the HTML files
+$useRelative = Read-Properties-Value -filePath $config -targetKey "server.root.relative"
+$pathToRoot = Read-Properties-Value -filePath $config -targetKey "server.root.path"
 
-    Write-Host "[$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')] $message"
+if ($useRelative -eq "true")
+{
+    $root = Join-Path $PWD.Path $pathToRoot
+}
+else
+{
+    $root = $pathToRoot
 }
 
-# Define the directory containing the HTML files
-$directory = Join-Path $PWD.Path "http"
-$indexPath = "index.html"
+$indexPath = Read-Properties-Value -filePath $config -targetKey "server.http.index"
 
 # Create the HTTP listener
 $listener = New-Object System.Net.HttpListener
 $listener.Prefixes.Add("http://localhost:$port/")
 $listener.Start()
 
-Log "Starting server at: $directory"
-Log "Listening for requests on port $port"
+Log-Info "Starting server at: $root"
+Log-Info "Listening for requests on port $port"
 
 
 # Define a function to handle shutdown events
 function HandleShutdown
 {
-    Log "Server is down."
+    Log-Info "Server is down."
     # Stop the listener when done
     $listener.Stop()
 }
@@ -48,17 +56,18 @@ try
             $filePath = $indexPath
         }
 
-        $fullPath = Join-Path $directory $filePath
+        $fullPath = Join-Path $root $filePath
 
         if (Test-Path $fullPath -PathType Leaf)
         {
+            Log-Debug "Resolved request for $filePath"
             # Serve the requested file
             $fileBytes = [System.IO.File]::ReadAllBytes($fullPath)
             $response.OutputStream.Write($fileBytes, 0, $fileBytes.Length)
         }
         else
         {
-            Log "File $filePath not found"
+            Log-Debug "File $filePath not found"
             # File not found, return 404 error
             $errorMessage = "File not found: $filePath"
             $errorBytes = [System.Text.Encoding]::UTF8.GetBytes($errorMessage)
