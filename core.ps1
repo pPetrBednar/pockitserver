@@ -1,6 +1,14 @@
 # Define the port number to listen on
 $port = 8080
 
+function Log {
+    param (
+        [string]$message
+    )
+
+    Write-Host "[$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')] $message"
+}
+
 # Define the directory containing the HTML files
 $directory = Join-Path $PWD.Path "http"
 $indexPath = "index.html"
@@ -10,14 +18,14 @@ $listener = New-Object System.Net.HttpListener
 $listener.Prefixes.Add("http://localhost:$port/")
 $listener.Start()
 
-Write-Host "Starting server at: $directory"
-Write-Host "Listening for requests on port $port"
+Log "Starting server at: $directory"
+Log "Listening for requests on port $port"
 
 
 # Define a function to handle shutdown events
 function HandleShutdown
 {
-    Write-Host "Server is down."
+    Log "Server is down."
     # Stop the listener when done
     $listener.Stop()
 }
@@ -44,14 +52,13 @@ try
 
         if (Test-Path $fullPath -PathType Leaf)
         {
-            Write-Host "File found"
             # Serve the requested file
             $fileBytes = [System.IO.File]::ReadAllBytes($fullPath)
             $response.OutputStream.Write($fileBytes, 0, $fileBytes.Length)
         }
         else
         {
-            Write-Host "File not found"
+            Log "File $filePath not found"
             # File not found, return 404 error
             $errorMessage = "File not found: $filePath"
             $errorBytes = [System.Text.Encoding]::UTF8.GetBytes($errorMessage)
