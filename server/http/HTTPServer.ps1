@@ -1,13 +1,14 @@
 $listener = $null
+$globalLogLevel = Read-Properties-Value -filePath $config -targetKey "server.log.level"
 
-function Stop-Server
+function Stop-Http-Server
 {
-    Log-Info "Server is shutting down.."
+    Log-Info $globalLogLevel "Server is shutting down.."
     $listener.Stop()
-    Log-Info "Server shut down"
+    Log-Info $globalLogLevel "Server shut down"
 }
 
-function Run-Server
+function Start-Http-Server
 {
     # Define the port number to listen on
     $port = Get-Config -targetKey "server.port"
@@ -32,8 +33,8 @@ function Run-Server
     $listener.Prefixes.Add("http://localhost:$port/")
     $listener.Start()
 
-    Log-Info "Starting server at: $root"
-    Log-Info "Listening for requests on port $port"
+    Log-Info $globalLogLevel "Starting HTTP Server at: $root"
+    Log-Info $globalLogLevel "Listening for requests on port $port"
 
     try
     {
@@ -57,14 +58,14 @@ function Run-Server
 
             if (Test-Path $fullPath -PathType Leaf)
             {
-                Log-Debug "Resolved request for $filePath"
+                Log-Debug $globalLogLevel "Resolved request for $filePath"
                 # Serve the requested file
                 $fileBytes = [System.IO.File]::ReadAllBytes($fullPath)
                 $response.OutputStream.Write($fileBytes, 0, $fileBytes.Length)
             }
             else
             {
-                Log-Debug "File $filePath not found"
+                Log-Debug $globalLogLevel "File $filePath not found"
                 # File not found, return 404 error
                 $errorMessage = "File not found: $filePath"
                 $errorBytes = [System.Text.Encoding]::UTF8.GetBytes($errorMessage)
@@ -77,12 +78,8 @@ function Run-Server
             $response.Close()
         }
     }
-    catch
-    {
-        Stop-Server
-    }
     finally
     {
-        Stop-Server
+        Stop-Http-Server
     }
 }

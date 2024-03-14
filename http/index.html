@@ -6,6 +6,21 @@
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-Hello world
+<div class="center-me">
+    <span>Hello World!</span>
+</div>
+<script>
+    function sync() {
+        window
+            .fetch("http://localhost:8081")
+            .then(function (response) {
+                if (response.ok && response.status === 200) {
+                    window.location.reload();
+                }
+            });
+    }
+
+    setInterval(sync, 5000);
+</script>
 </body>
 </html>

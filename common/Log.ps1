@@ -58,11 +58,11 @@ function Log-Level-Reverse
 function Log
 {
     param (
+        [string]$globalLevel,
         [int]$level,
         [string]$message
     )
 
-    $globalLevel = Read-Properties-Value -filePath $config -targetKey "server.log.level"
     $globalLevelNum = Log-Level -level $globalLevel
 
     if ($level -le $globalLevelNum)
@@ -75,26 +75,29 @@ function Log
 function Log-Info
 {
     param (
+        [string]$globalLevel,
         [string]$message
     )
 
-    Log -level 1 -message $message
+    Log -globalLevel $globalLevel -level 1 -message $message
 }
 
 function Log-Error
 {
     param (
+        [string]$globalLevel,
         [string]$message
     )
 
-    Log -level 2 -message $message
+    Log -globalLevel $globalLevel -level 2 -message $message
 }
 
 function Log-Debug
 {
     param (
+        [string]$globalLevel,
         [string]$message
     )
 
-    Log -level 3 -message $message
+    Log -globalLevel $globalLevel -level 3 -message $message
 }
