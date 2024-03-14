@@ -1,6 +1,6 @@
-. ".\common\Log.ps1"
-. ".\common\Config.ps1"
-. ".\server\http\HTTPServer.ps1"
+. ".\bin\common\Log.ps1"
+. ".\bin\common\Config.ps1"
+. ".\bin\server\http\HTTPServer.ps1"
 
 $Host.UI.RawUI.WindowTitle = "Simple HTTP Server"
 # Get the PID of the terminal window

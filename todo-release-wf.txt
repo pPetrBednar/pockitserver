@@ -1,0 +1,8 @@
+Administrator PS
+
+Install-Module ps2exe
+Y
+A
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+ps2exe .\GUI.ps1 .\GUI.exe -noConsole
+Compress-Archive -Path @("GUI.exe", "config.properties", "bin") -DestinationPath ".\arch.zip"

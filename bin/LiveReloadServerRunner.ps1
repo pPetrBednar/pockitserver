@@ -1,6 +1,6 @@
-. ".\common\Log.ps1"
-. ".\common\Config.ps1"
-. ".\server\live-reload\LiveReloadServer.ps1"
+. ".\bin\common\Log.ps1"
+. ".\bin\common\Config.ps1"
+. ".\bin\server\live-reload\LiveReloadServer.ps1"
 
 $Host.UI.RawUI.WindowTitle = "Simple Live-Reload Server"
 # Get the PID of the terminal window
