@@ -1,5 +1,3 @@
-$config = Join-Path $PWD.Path "config.properties"
-
 function Read-Properties-Value
 {
     param (
