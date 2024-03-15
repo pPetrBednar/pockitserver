@@ -39,11 +39,11 @@ jobs:
 
       - name: Convert PowerShell script to executable (x64)
         shell: powershell
-        run: ps2exe .\GUI.ps1 .\x64\Pockitserver\GUI.exe -noConsole -iconFile ".\res\icon.ico" -version "${{ github.event.inputs.targetVersion }}" -copyright "Petr Bednář" -x64 -product "Simple portable HTML Server with Live-Reload and GUI" -title "Pockitserver" -verbose
+        run: ps2exe .\GUI.ps1 .\x64\Pockitserver\Pockitserver.exe -noConsole -iconFile ".\res\icon.ico" -version "${{ github.event.inputs.targetVersion }}" -copyright "Petr Bednář" -x64 -product "Simple portable HTML Server with Live-Reload and GUI" -title "Pockitserver" -verbose
 
       - name: Convert PowerShell script to executable (x86)
         shell: powershell
-        run: ps2exe .\GUI.ps1 .\x86\Pockitserver\GUI.exe -noConsole -iconFile ".\res\icon.ico" -version "${{ github.event.inputs.targetVersion }}" -copyright "Petr Bednář" -x86 -product "Simple portable HTML Server with Live-Reload and GUI" -title "Pockitserver" -verbose
+        run: ps2exe .\GUI.ps1 .\x86\Pockitserver\Pockitserver.exe -noConsole -iconFile ".\res\icon.ico" -version "${{ github.event.inputs.targetVersion }}" -copyright "Petr Bednář" -x86 -product "Simple portable HTML Server with Live-Reload and GUI" -title "Pockitserver" -verbose
 
       - name: Prepare release folder
         shell: powershell
