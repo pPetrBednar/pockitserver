@@ -1,8 +1,9 @@
-<div style="height: 110px">
+<div style="height: 100px">
     <img src="icon.png" alt="Your Image" width="100" style="float:left; margin-right:20px;">
-    <h2>Pocket PowerShell WEB Server \w Live-Reload Server</h2>
+   <h1>Pockitserver</h1>
 </div>
 
+## Pocket PowerShell WEB Server \w Live-Reload Server
 Simple HTTP server implementation using PowerShell.
 Server is configurable using config.properties file.
 Example configuration is present in chapter below.
@@ -20,7 +21,7 @@ yyyy-MM-dd HH:mm:ss [info|error|debug] <message>
 
 ## Installation
 
-1. **Download latest release .zip file of HT-LR Server.**
+1. **Download latest release .zip file of Pockitserver.**
 2. **Extract files to folder.**
 3. **[recommended] Start server hub GUI**
     - Start - to start both HTML and LR servers

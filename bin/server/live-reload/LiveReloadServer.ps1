@@ -1,5 +1,5 @@
+$globalLogLevel = Get-Config -targetKey "live-reload-server.log.level"
 $listener = $null
-$globalLogLevel = Read-Properties-Value -filePath $config -targetKey "live-reload-server.log.level"
 
 # Specify the file where modification times are saved
 $modificationsFile = ".\.modifications"
@@ -107,7 +107,6 @@ function Start-Live-Reload-Server
         while ($listener.IsListening)
         {
             $context = $listener.GetContext()
-            $request = $context.Request
             $response = $context.Response
 
             # Set CORS headers to allow requests from all origins

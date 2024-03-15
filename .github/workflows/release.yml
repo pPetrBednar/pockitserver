@@ -34,22 +34,20 @@ jobs:
         run: |
           New-Item -ItemType Directory -Path "x86"
           New-Item -ItemType Directory -Path "x64"
-          New-Item -ItemType Directory -Path "x86\HT-LR Server"
-          New-Item -ItemType Directory -Path "x64\HT-LR Server"
+          New-Item -ItemType Directory -Path "x86\Pockitserver"
+          New-Item -ItemType Directory -Path "x64\Pockitserver"
 
       - name: Convert PowerShell script to executable (x64)
         shell: powershell
-        run: ps2exe .\GUI.ps1 .\x64\HT-LR Server\GUI.exe -noConsole -iconFile ".\res\icon.ico" -version "${{ github.event.inputs.targetVersion }}" -copyright "Petr Bednář" -x64 -product "Simple HTML Server with Live-Reload and GUI" -title "HT-LR Server" -verbose
+        run: ps2exe .\GUI.ps1 .\x64\Pockitserver\GUI.exe -noConsole -iconFile ".\res\icon.ico" -version "${{ github.event.inputs.targetVersion }}" -copyright "Petr Bednář" -x64 -product "Simple portable HTML Server with Live-Reload and GUI" -title "Pockitserver" -verbose
 
       - name: Convert PowerShell script to executable (x86)
         shell: powershell
-        run: ps2exe .\GUI.ps1 .\x86\HT-LR Server\GUI.exe -noConsole -iconFile ".\res\icon.ico" -version "${{ github.event.inputs.targetVersion }}" -copyright "Petr Bednář" -x86 -product "Simple HTML Server with Live-Reload and GUI" -title "HT-LR Server" -verbose
+        run: ps2exe .\GUI.ps1 .\x86\Pockitserver\GUI.exe -noConsole -iconFile ".\res\icon.ico" -version "${{ github.event.inputs.targetVersion }}" -copyright "Petr Bednář" -x86 -product "Simple portable HTML Server with Live-Reload and GUI" -title "Pockitserver" -verbose
 
       - name: Prepare release folder
         shell: powershell
         run: |
-            # Create the directory
-            New-Item -ItemType Directory -Path "HT-LR Server"
             
             # Specify the files and folders to copy
             $filesToCopy = @("config.properties")
@@ -57,21 +55,21 @@ jobs:
             
             # Copy files
             foreach ($file in $filesToCopy) {
-                Copy-Item $file -Destination "x64\HT-LR Server"
-                Copy-Item $file -Destination "x86\HT-LR Server"
+                Copy-Item $file -Destination "x64\Pockitserver"
+                Copy-Item $file -Destination "x86\Pockitserver"
             }
             
             # Copy folders
             foreach ($folder in $foldersToCopy) {
-                Copy-Item -Recurse $folder -Destination "x64\HT-LR Server"
-                Copy-Item -Recurse $folder -Destination "x86\HT-LR Server"
+                Copy-Item -Recurse $folder -Destination "x64\Pockitserver"
+                Copy-Item -Recurse $folder -Destination "x86\Pockitserver"
             }
         
       - name: Compress files
         shell: powershell
         run: |
-          Compress-Archive -Path @("x64\HT-LR Server") -DestinationPath ".\HT-LR_Server_v${{ github.event.inputs.targetVersion }}_x64.zip"
-          Compress-Archive -Path @("x86\HT-LR Server") -DestinationPath ".\HT-LR_Server_v${{ github.event.inputs.targetVersion }}_x86.zip"
+          Compress-Archive -Path @("x64\Pockitserver") -DestinationPath ".\Pockitserver_v${{ github.event.inputs.targetVersion }}_x64.zip"
+          Compress-Archive -Path @("x86\Pockitserver") -DestinationPath ".\Pockitserver_v${{ github.event.inputs.targetVersion }}_x86.zip"
 
       - name: Create Release
         id: create_release
@@ -80,9 +78,11 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ github.event.inputs.targetVersion }}
-          release_name: HT-LR Server v${{ github.event.inputs.targetVersion }}
+          release_name: Pockitserver v${{ github.event.inputs.targetVersion }}
           body: |
-            Release ${{ github.event.inputs.targetVersion }}
+            Release of Pockitserver v${{ github.event.inputs.targetVersion }}.
+            Assets include both 32bit and 64bit versions.
+            Pockitserver is portable and doesn't require any installation.
           draft: false
           prerelease: false
 
@@ -92,8 +92,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ".\\HT-LR_Server_v${{ github.event.inputs.targetVersion }}_x64.zip"
-          asset_name: "HT-LR_Server_v${{ github.event.inputs.targetVersion }}_x64.zip"
+          asset_path: ".\\Pockitserver_v${{ github.event.inputs.targetVersion }}_x64.zip"
+          asset_name: "Pockitserver_v${{ github.event.inputs.targetVersion }}_x64.zip"
           asset_content_type: application/zip
 
       - name: Upload artifact x86 to release
@@ -102,6 +102,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ".\\HT-LR_Server_v${{ github.event.inputs.targetVersion }}_x86.zip"
-          asset_name: "HT-LR_Server_v${{ github.event.inputs.targetVersion }}_x86.zip"
+          asset_path: ".\\Pockitserver_v${{ github.event.inputs.targetVersion }}_x86.zip"
+          asset_name: "Pockitserver_v${{ github.event.inputs.targetVersion }}_x86.zip"
           asset_content_type: application/zip

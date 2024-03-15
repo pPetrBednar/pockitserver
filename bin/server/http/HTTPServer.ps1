@@ -1,5 +1,5 @@
+$globalLogLevel = Get-Config -targetKey "server.log.level"
 $listener = $null
-$globalLogLevel = Read-Properties-Value -filePath $config -targetKey "server.log.level"
 
 function Stop-Http-Server
 {
