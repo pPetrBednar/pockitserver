@@ -19,20 +19,22 @@ jobs:
         run: echo "Using version ${{ github.event.inputs.targetVersion }}"
 
       - name: Set execution policy to Bypass for whole system
+        shell: powershell
         run: Set-ExecutionPolicy -Scope LocalMachine -ExecutionPolicy Bypass -Force
 
       - name: Install ps2exe PowerShell module
+        shell: powershell
         run: Install-Module -Name ps2exe -Force -Scope CurrentUser -AllowClobber
 
       - name: Checkout repository
         uses: actions/checkout@v2
 
       - name: Convert PowerShell script to executable
-        run: |
-          Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force
-          ps2exe .\GUI.ps1 .\GUI.exe -noConsole
+        shell: powershell
+        run: ps2exe .\GUI.ps1 .\GUI.exe -noConsole
 
       - name: Compress files
+        shell: powershell
         run: Compress-Archive -Path @("GUI.exe", "config.properties", "bin") -DestinationPath ".\HT-LR Server v${{ github.event.inputs.targetVersion }}.zip"
 
       - name: Create Release
