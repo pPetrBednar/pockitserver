@@ -16,15 +16,15 @@ yyyy-MM-dd HH:mm:ss [info|error|debug] <message>
 
 ## Installation
 
-1. Download latest release .zip file of HT-LR Server.
-2. Extract files to folder.
-3a. Start server hub GUI
+1. **Download latest release .zip file of HT-LR Server.**
+2. **Extract files to folder.**
+3. **[recommended] Start server hub GUI**
     - Start - to start both HTML and LR servers
     - Stop - to shut down both servers
     - Quit - close GUI (runs Stop before exit)
-3b. Start servers using .bat files
-    - start.bat - to start both HTML and LR servers
-    - stop.bat - to shut down both servers
+3. **[optional]** *Start servers using .bat files*
+    - *start.bat - to start both HTML and LR servers*
+    - *stop.bat - to shut down both servers*
 
 ## Live-Reload functionality
 
@@ -94,7 +94,7 @@ live-reload-server.log.level=info # none|info|error|debug
 Plugins -> Powershell
 ```
 
-### Configuration
+### Configurations
 
 ```
 Name -> Run [http]
@@ -104,6 +104,11 @@ Working directory: this project folder
 
 Name -> Run [live-reload]
 Path -> Script .\bin\LiveReloadServerRunner.ps1
+Command parameters: -executionpolicy unrestricted
+Working directory: this project folder
+
+Name -> GUI
+Path -> Script .\bin\GUI.ps1
 Command parameters: -executionpolicy unrestricted
 Working directory: this project folder
 ```
