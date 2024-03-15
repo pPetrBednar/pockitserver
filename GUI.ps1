@@ -19,10 +19,17 @@ function Stop-Servers {
 # Create Form
 $form = New-Object System.Windows.Forms.Form
 $form.Text = "HT/LR Server"
-$form.Size = New-Object System.Drawing.Size(300, 120)
+$form.Size = New-Object System.Drawing.Size(295, 120)
 $form.StartPosition = "CenterScreen"
 $form.FormBorderStyle = "FixedDialog"
 $form.MaximizeBox = $false
+
+# Load custom icon
+$iconPath = Join-Path $PWD.Path "res\icon.ico"
+$formIcon = New-Object System.Drawing.Icon($iconPath)
+
+# Set form icon
+$form.Icon = $formIcon
 
 # Create Status Label
 $statusLabel = New-Object System.Windows.Forms.Label
