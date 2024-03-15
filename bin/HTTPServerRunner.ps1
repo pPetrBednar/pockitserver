@@ -1,3 +1,5 @@
+$config = ".\config.properties"
+
 . ".\bin\common\Log.ps1"
 . ".\bin\common\Config.ps1"
 . ".\bin\server\http\HTTPServer.ps1"
