@@ -1,4 +1,4 @@
-# Pocket PowerShell WEB server
+# Pocket PowerShell WEB Server \w Live-Reload Server
 
 Simple HTTP server implementation using PowerShell.
 Server is configurable using config.properties file.
@@ -14,9 +14,33 @@ Log output format
 yyyy-MM-dd HH:mm:ss [info|error|debug] <message>
 ```
 
+## Live-Reload functionality
+
+Live-Reload is managed using separate server.
+Specific JS script needs to be present in each LR enabled html file.
+Script calls LR server every few seconds to check for file modifications.
+If there is a change, page gets reloaded.
+
+```
+<script>
+    function sync() {
+        window
+            .fetch("http://localhost:8081")
+            .then(function (response) {
+                if (response.ok && response.status === 200) {
+                    window.location.reload();
+                }
+            });
+    }
+
+    setInterval(sync, 5000);
+</script>
+```
+
 ## Server properties [default]
 
 ```
+# HTTP Server
 # Port
 server.port=8080
 
@@ -29,9 +53,16 @@ server.root.relative=true
 server.http.index=index.html
 
 # HTTP server [absolute]
-server.root.path=C:\server\http
-server.root.relative=false
-server.http.index=index.html
+# server.root.path=C:\server\http
+# server.root.relative=false
+# server.http.index=index.html
+
+# Live Reload server
+# Port
+live-reload-server.port=8081
+
+# Logging
+live-reload-server.log.level=info # none|info|error|debug
 ```
 
 ## Support
