@@ -1,4 +1,7 @@
-# Pocket PowerShell WEB Server \w Live-Reload Server
+<div style="height: 110px">
+    <img src="icon.png" alt="Your Image" width="100" style="float:left; margin-right:20px;">
+    <h2>Pocket PowerShell WEB Server \w Live-Reload Server</h2>
+</div>
 
 Simple HTTP server implementation using PowerShell.
 Server is configurable using config.properties file.
@@ -9,6 +12,7 @@ Be aware of the fact that the server doesn't have any security measures.
 Server is intended for local only use as a way how to bypass localhost CORS.
 
 Server includes advanced logging that is stored inside specified file.
+
 ```
 Log output format
 yyyy-MM-dd HH:mm:ss [info|error|debug] <message>
