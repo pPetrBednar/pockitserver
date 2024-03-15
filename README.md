@@ -1,6 +1,6 @@
-<div style="height: 100px; display: flex; flex-direction: row;">
-    <img src="icon.png" alt="Your Image" width="100" style="float:left; margin-right:20px;">
-    <h1>Pockitserver</h1>
+<div style="height: 100px; display: flex; flex-direction: row; justify-content: center; align-items: center;">
+        <img src="icon.png" alt="Your Image" width="100" height="100" style="float:left; margin-right:20px;">
+        <span style="line-height: 100px">Pockitserver</span>
 </div>
 
 ## Pocket PowerShell WEB Server \w Live-Reload Server
