@@ -35,7 +35,7 @@ jobs:
 
       - name: Compress files
         shell: powershell
-        run: Compress-Archive -Path @("GUI.exe", "config.properties", "bin") -DestinationPath ".\HT-LR Server v${{ github.event.inputs.targetVersion }}.zip"
+        run: Compress-Archive -Path @("GUI.exe", "config.properties", "bin", "http") -DestinationPath ".\HT-LR Server v${{ github.event.inputs.targetVersion }}.zip"
 
       - name: Create Release
         id: create_release
