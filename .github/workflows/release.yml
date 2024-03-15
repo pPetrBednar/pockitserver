@@ -1,0 +1,57 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      targetVersion:
+        description: 'Target version for the release'
+        required: true
+        default: '0.0.1'
+
+jobs:
+  release:
+    name: Release Pipeline
+    runs-on: windows-latest
+    permissions: write-all
+
+    steps:
+      - name: Specified version
+        run: echo "Using version ${{ github.event.inputs.targetVersion }}"
+    
+      - name: Install ps2exe PowerShell module
+        run: Install-Module -Name ps2exe -Force -Scope CurrentUser -AllowClobber
+
+      - name: Set execution policy to Bypass for whole system
+        run: Set-ExecutionPolicy -Scope LocalMachine -ExecutionPolicy Bypass -Force
+
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Convert PowerShell script to executable
+        run: ps2exe .\GUI.ps1 .\GUI.exe -noConsole
+
+      - name: Compress files
+        run: Compress-Archive -Path @("GUI.exe", "config.properties", "bin") -DestinationPath ".\HT-LR Server v${{ github.event.inputs.targetVersion }}.zip"
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.event.inputs.targetVersion }}
+          release_name: Release ${{ github.event.inputs.targetVersion }}
+          body: |
+            Release ${{ github.event.inputs.targetVersion }}
+          draft: false
+          prerelease: false
+
+      - name: Upload artifact to release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ".\\HT-LR Server v${{ github.event.inputs.targetVersion }}.zip"
+          asset_name: "HT-LR Server v${{ github.event.inputs.targetVersion }}.zip"
+          asset_content_type: application/zip
