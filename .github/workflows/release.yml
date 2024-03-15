@@ -17,18 +17,20 @@ jobs:
     steps:
       - name: Specified version
         run: echo "Using version ${{ github.event.inputs.targetVersion }}"
-    
-      - name: Install ps2exe PowerShell module
-        run: Install-Module -Name ps2exe -Force -Scope CurrentUser -AllowClobber
 
       - name: Set execution policy to Bypass for whole system
         run: Set-ExecutionPolicy -Scope LocalMachine -ExecutionPolicy Bypass -Force
+
+      - name: Install ps2exe PowerShell module
+        run: Install-Module -Name ps2exe -Force -Scope CurrentUser -AllowClobber
 
       - name: Checkout repository
         uses: actions/checkout@v2
 
       - name: Convert PowerShell script to executable
-        run: ps2exe .\GUI.ps1 .\GUI.exe -noConsole
+        run: |
+          Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force
+          ps2exe .\GUI.ps1 .\GUI.exe -noConsole
 
       - name: Compress files
         run: Compress-Archive -Path @("GUI.exe", "config.properties", "bin") -DestinationPath ".\HT-LR Server v${{ github.event.inputs.targetVersion }}.zip"
