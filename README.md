@@ -58,6 +58,9 @@ If there is a change, page gets reloaded.
 ## Server properties [default]
 
 ```
+# GUI
+gui.console=false
+
 # HTTP Server
 # Port
 server.port=8080
