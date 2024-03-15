@@ -1,4 +1,4 @@
-$config = Join-Path $PWD.Path ".\..\config.properties"
+$config = Join-Path $PWD.Path ".\config.properties"
 
 . ".\bin\common\Log.ps1"
 . ".\bin\common\Config.ps1"
