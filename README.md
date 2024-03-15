@@ -1,7 +1,8 @@
-<div style="height: 100px; display: flex; flex-direction: row; justify-content: center; align-items: center;">
-        <img src="icon.png" alt="Your Image" width="100" height="100" style="float:left; margin-right:20px;">
-        <span style="line-height: 100px">Pockitserver</span>
-</div>
+<img align="left" width="100" height="100" src="icon.png">
+
+<h1 style="border-bottom: 0;">Pockitserver</h1>
+
+<br>
 
 ## Pocket PowerShell WEB Server \w Live-Reload Server
 Simple HTTP server implementation using PowerShell.
