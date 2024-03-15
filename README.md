@@ -56,8 +56,8 @@ If there is a change, page gets reloaded.
 # Port
 server.port=8080
 
-# Logging
-server.log.level=debug # none|info|error|debug
+# Logging [none|info|error|debug]
+server.log.level=debug
 
 # HTTP server [relative]
 server.root.path=http
@@ -73,8 +73,8 @@ server.http.index=index.html
 # Port
 live-reload-server.port=8081
 
-# Logging
-live-reload-server.log.level=info # none|info|error|debug
+# Logging [none|info|error|debug]
+live-reload-server.log.level=info
 ```
 
 ## Support
