@@ -7,18 +7,27 @@ $showConsole = Get-Config -targetKey "gui.console"
 
 function Stop-Servers
 {
-    $PID1 = Get-Content -Path ".\.http_server_pid"
-    # Check if the process with specified PID exists and is a PowerShell terminal
-    if (Get-Process -Id $PID1 -ErrorAction SilentlyContinue | Where-Object { $_.ProcessName -eq 'powershell' })
+    $pid1path = ".\.http_server_pid"
+    $pid2path = ".\.live_reload_server_pid"
+
+    if (Test-Path $pid1path)
     {
-        Stop-Process -Id $PID1 -Force
+        $PID1 = Get-Content -Path $pid1path
+        # Check if the process with specified PID exists and is a PowerShell terminal
+        if (Get-Process -Id $PID1 -ErrorAction SilentlyContinue | Where-Object { $_.ProcessName -eq 'powershell' })
+        {
+            Stop-Process -Id $PID1 -Force
+        }
     }
 
-    $PID2 = Get-Content -Path ".\.live_reload_server_pid"
-    # Check if the process with specified PID exists and is a PowerShell terminal
-    if (Get-Process -Id $PID2 -ErrorAction SilentlyContinue | Where-Object { $_.ProcessName -eq 'powershell' })
+    if (Test-Path $pid2path)
     {
-        Stop-Process -Id $PID2 -Force
+        $PID2 = Get-Content -Path $pid2path
+        # Check if the process with specified PID exists and is a PowerShell terminal
+        if (Get-Process -Id $PID2 -ErrorAction SilentlyContinue | Where-Object { $_.ProcessName -eq 'powershell' })
+        {
+            Stop-Process -Id $PID2 -Force
+        }
     }
 }
 
