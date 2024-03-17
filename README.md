@@ -22,9 +22,9 @@ yyyy-MM-dd HH:mm:ss [info|error|debug] <message>
 
 ## Installation
 
-- **Download latest release .zip file of Pockitserver.**
-- **Extract files to folder.**
-- **[recommended] Start server hub GUI**
+1. **Download latest release .zip file of Pockitserver.**
+2. **Extract files to folder.**
+3. **[recommended] Run Pockitserver.exe**
     - Start - to start both HTML and LR servers
     - Stop - to shut down both servers
     - Quit - close GUI (runs Stop before exit)
@@ -62,6 +62,9 @@ Alternatively you can use **automatic mode** with inclusion of single script.
 ## Server properties [default]
 
 ```properties
+# GUI
+gui.console=false
+
 # HTTP Server
 # Port
 server.port=8080
