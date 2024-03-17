@@ -2,25 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>Pockitserver showcase</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
-<body>
+<body onload="liveReload(1000)">
+<script src="js/live-reload.js"></script>
 <div class="center-me">
     <span>Hello World!</span>
 </div>
-<script>
-    function sync() {
-        window
-            .fetch("http://localhost:8081")
-            .then(function (response) {
-                if (response.ok && response.status === 200) {
-                    window.location.reload();
-                }
-            });
-    }
-
-    setInterval(sync, 5000);
-</script>
 </body>
 </html>

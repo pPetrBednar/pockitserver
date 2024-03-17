@@ -1,6 +1,6 @@
-<img align="left" width="100" height="100" src="icon.png">
+<img align="left" width="100" height="100" src="icon.png" alt="Pockitserver Icon">
 
-<h1 style="border-bottom: 0;">Pockitserver</h1>
+<h1>Pockitserver</h1>
 
 <br>
 
@@ -22,13 +22,13 @@ yyyy-MM-dd HH:mm:ss [info|error|debug] <message>
 
 ## Installation
 
-1. **Download latest release .zip file of Pockitserver.**
-2. **Extract files to folder.**
-3. **[recommended] Start server hub GUI**
+- **Download latest release .zip file of Pockitserver.**
+- **Extract files to folder.**
+- **[recommended] Start server hub GUI**
     - Start - to start both HTML and LR servers
     - Stop - to shut down both servers
     - Quit - close GUI (runs Stop before exit)
-3. **[optional]** *Start servers using .bat files*
+- **[optional]** *Start servers using .bat files*
     - *start.bat - to start both HTML and LR servers*
     - *stop.bat - to shut down both servers*
 
@@ -38,26 +38,30 @@ Live-Reload is managed using separate server.
 Specific JS script needs to be present in each LR enabled html file.
 Script calls LR server every few seconds to check for file modifications.
 If there is a change, page gets reloaded.
+To set up this functionality, live-reload.js needs to be included.
+Lastly the change checking interval needs to be added to body onload.
 
+```html
+<body onload="liveReload(1000)">
+   <script src="./http/js/live-reload.js"></script>
+</body>
 ```
-<script>
-    function sync() {
-        window
-            .fetch("http://localhost:8081")
-            .then(function (response) {
-                if (response.ok && response.status === 200) {
-                    window.location.reload();
-                }
-            });
-    }
-
-    setInterval(sync, 5000);
-</script>
+You can manually set the live-reload interval or leave it empty to use default 1000ms / 1s interval.
+```html
+<body onload="liveReload()">
+   <script src="./http/js/live-reload.js"></script>
+</body>
+```
+Alternatively you can use **automatic mode** with inclusion of single script.
+```html
+<body>
+   <script src="./http/js/live-reload-auto.js"></script>
+</body>
 ```
 
 ## Server properties [default]
 
-```
+```properties
 # HTTP Server
 # Port
 server.port=8080
