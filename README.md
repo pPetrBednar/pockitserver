@@ -24,7 +24,7 @@ yyyy-MM-dd HH:mm:ss [info|error|debug] <message>
 
 1. **Download latest release .zip file of Pockitserver.**
 2. **Extract files to folder.**
-3. **[recommended] Start server hub GUI**
+3. **[recommended] Run Pockitserver.exe**
     - Start - to start both HTML and LR servers
     - Stop - to shut down both servers
     - Quit - close GUI (runs Stop before exit)
