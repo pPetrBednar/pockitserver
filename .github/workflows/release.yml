@@ -70,14 +70,14 @@ jobs:
         run: |
           New-Item -ItemType Directory -Path "x64\Pockitserver\php"
           New-Item -ItemType Directory -Path "x86\Pockitserver\php"
-          Expand-Archive -Path ".\php-8.3.4-Win32-vs16-x64.zip" -DestinationPath @("x64\Pockitserver\php")
-          Expand-Archive -Path ".\php-8.3.4-Win32-vs16-x86.zip" -DestinationPath @("x86\Pockitserver\php")
+          Expand-Archive -Path ".\php-8.3.4-Win32-vs16-x64.zip" -DestinationPath "x64\Pockitserver\php"
+          Expand-Archive -Path ".\php-8.3.4-Win32-vs16-x86.zip" -DestinationPath "x86\Pockitserver\php"
 
       - name: Compress files
         shell: powershell
         run: |
-          Compress-Archive -Path @("x64\Pockitserver") -DestinationPath ".\Pockitserver_v${{ github.event.inputs.targetVersion }}_x64.zip"
-          Compress-Archive -Path @("x86\Pockitserver") -DestinationPath ".\Pockitserver_v${{ github.event.inputs.targetVersion }}_x86.zip"
+          Compress-Archive -Path "x64\Pockitserver" -DestinationPath ".\Pockitserver_v${{ github.event.inputs.targetVersion }}_x64.zip"
+          Compress-Archive -Path "x86\Pockitserver" -DestinationPath ".\Pockitserver_v${{ github.event.inputs.targetVersion }}_x86.zip"
 
       - name: Create Release
         id: create_release
