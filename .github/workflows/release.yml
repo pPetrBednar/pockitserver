@@ -65,6 +65,14 @@ jobs:
                 Copy-Item -Recurse $folder -Destination "x86\Pockitserver"
             }
         
+      - name: Prepare PHP server files
+        shell: powershell
+        run: |
+          New-Item -ItemType Directory -Path "x64\Pockitserver\php"
+          New-Item -ItemType Directory -Path "x86\Pockitserver\php"
+          Expand-Archive -Path ".\php-8.3.4-Win32-vs16-x64.zip" -DestinationPath @("x64\Pockitserver\php")
+          Expand-Archive -Path ".\php-8.3.4-Win32-vs16-x86.zip" -DestinationPath @("x86\Pockitserver\php")
+
       - name: Compress files
         shell: powershell
         run: |

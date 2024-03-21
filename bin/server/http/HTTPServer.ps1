@@ -16,6 +16,7 @@ function Start-Http-Server
     # Define the root containing the HTML files
     $useRelative = Get-Config -targetKey "server.root.relative"
     $pathToRoot = Get-Config -targetKey "server.root.path"
+    $directoryListingPath = Join-Path $PWD.Path "bin\php\directory-listing.php";
 
     if ($useRelative -eq "true")
     {
@@ -49,19 +50,51 @@ function Start-Http-Server
             # Get the requested file path
             $filePath = $request.Url.LocalPath
 
+            # If index file exists, show that
             if ($filePath -eq "/")
             {
-                $filePath = $indexPath
+                $indexTestPath = Join-Path $root $indexPath
+                if (Test-Path $indexTestPath -PathType Leaf)
+                {
+                    $filePath = $indexPath
+                }
             }
 
             $fullPath = Join-Path $root $filePath
 
-            if (Test-Path $fullPath -PathType Leaf)
+            if (Test-Path $fullPath -PathType Container)
             {
-                Log-Debug $globalLogLevel "Resolved request for $filePath"
-                # Serve the requested file
-                $fileBytes = [System.IO.File]::ReadAllBytes($fullPath)
-                $response.OutputStream.Write($fileBytes, 0, $fileBytes.Length)
+                Log-Debug $globalLogLevel "Resolved folder request for $filePath"
+                $phpOutput = .\php\php-cgi.exe -f $directoryListingPath dir="$fullPath" root="$filePath"
+
+                $response.ContentType = "text/html"
+                # Convert PHP output to bytes
+                $phpBytes = [System.Text.Encoding]::UTF8.GetBytes($phpOutput)
+
+                # Write bytes to output stream
+                $response.OutputStream.Write($phpBytes, 0, $phpBytes.Length)
+            }
+            elseif (Test-Path $fullPath -PathType Leaf)
+            {
+                if ($filePath -like "*.php")
+                {
+                    Log-Debug $globalLogLevel "Resolved PHP request for $filePath"
+                    # PHP file requested, execute it
+                    $phpOutput = & .\php\php-cgi.exe -f $fullPath
+                    $response.ContentType = "text/html"
+                    # Convert PHP output to bytes
+                    $phpBytes = [System.Text.Encoding]::UTF8.GetBytes($phpOutput)
+
+                    # Write bytes to output stream
+                    $response.OutputStream.Write($phpBytes, 0, $phpBytes.Length)
+                }
+                else
+                {
+                    Log-Debug $globalLogLevel "Resolved request for $filePath"
+                    # Serve the requested file
+                    $fileBytes = [System.IO.File]::ReadAllBytes($fullPath)
+                    $response.OutputStream.Write($fileBytes, 0, $fileBytes.Length)
+                }
             }
             else
             {

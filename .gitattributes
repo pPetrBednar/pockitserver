@@ -1,2 +1,4 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+php-8.3.4-Win32-vs16-x64.zip export-ignore
+php-8.3.4-Win32-vs16-x86.zip export-ignore
